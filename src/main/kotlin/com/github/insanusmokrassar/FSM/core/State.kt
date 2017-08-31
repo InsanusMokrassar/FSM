@@ -9,6 +9,15 @@ interface State {
     val action: (String) -> Unit
 }
 
+open class SimpleState(
+        override val accept: Boolean,
+        override val error: Boolean,
+        override val stack: Boolean,
+        override val regex: Regex,
+        override val next: Int?,
+        override val action: (String) -> Unit = {}
+) : State
+
 class AcceptErrorReturnState(regex: String, override val action: (String) -> Unit = {}): State {
     override val accept: Boolean = true
     override val error: Boolean = true

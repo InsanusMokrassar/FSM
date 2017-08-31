@@ -31,3 +31,33 @@ This can be translated in next table:
 | 5 | true | true | false | false | 6 | \d |
 | 6 | false | true | false | false | 1 | \[\d;\] |
 | 7 | false | true | false | true | - | ; |
+
+## Runner from config
+
+```JSmin
+{
+  "states": [
+    [
+      true/false,//<accept>
+      true/false,//<error>
+      true/false,//<stack>
+      "regex",//<regex as string>
+      int or "null",//<next>
+      {
+        "package": "package to callback",
+        "config": any object as config object.
+      }
+    ],{
+      "accept": true/false,
+      "error": true/false,
+      "stack": true/false,
+      "regex": "regex",
+      "next": optional int (default == null),
+      "callback": {
+        "package": "package to callback",
+        "config": any object as config object.
+      }
+    }
+  ]
+}
+```
