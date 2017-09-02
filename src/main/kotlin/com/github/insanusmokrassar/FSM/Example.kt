@@ -28,6 +28,7 @@ fun main(args: Array<String>) {
     while (true) {
         try {
             runner(scanner.nextLine())
+            println("All right")
         } catch (e: Throwable) {
             e.printStackTrace()
         }
