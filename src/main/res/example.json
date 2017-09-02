@@ -1,0 +1,53 @@
+{
+  "states": [
+    [
+      false,
+      true,
+      false,
+      "\\d",
+      3
+    ], [
+      false,
+      false,
+      false,
+      "\\d",
+      5
+    ], [
+      false,
+      true,
+      false,
+      ";",
+      7
+    ], [
+      false,
+      true,
+      true,
+      "\\d",
+      1
+    ], [
+      true,
+      true,
+      false,
+      ";",
+      null
+    ], [
+      true,
+      true,
+      false,
+      "\\d",
+      6
+    ], [
+      false,
+      true,
+      false,
+      "[\\d;]",
+      1
+    ], [
+      false,
+      true,
+      false,
+      ";",
+      null
+    ]
+  ]
+}
