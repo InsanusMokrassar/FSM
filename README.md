@@ -23,10 +23,10 @@ This can be translated in next table:
 
 | n | accept | error | stack | return | next | symbs |
 |---|--------|-------|-------|--------|------|-------|
-| 0 | false | true | false | false | 3 | \d |
+| 0 | false | true | false | false | 3 | \[\d;\] |
 | 1 | false | false | false | false | 5 | \d |
 | 2 | false | true | false | false | 7 | ; |
-| 3 | false | true | true | false | 1 | \d |
+| 3 | false | true | true | false | 1 | \[\d;\] |
 | 4 | true | true | false | true | - | ; |
 | 5 | true | true | false | false | 6 | \d |
 | 6 | false | true | false | false | 1 | \[\d;\] |
