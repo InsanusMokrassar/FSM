@@ -13,7 +13,7 @@ interface State {
  * Use with caution - this method is not add config field for callback
  */
 fun State.toConfigString(): String {
-    return "[$accept,$error,$stack,\"${regex.pattern}\",$next${if (action != defaultAction) ",callback:{\"$callbackField\":${action::class.java.canonicalName}}" else ""}]"
+    return "[$accept,$error,$stack,\"${regex.pattern.replace("\\", "\\\\")}\",$next${if (action != defaultAction) ",{\"$callbackField\":${action::class.java.canonicalName}}" else ""}]"
 }
 
 private val defaultAction: (String) -> Unit = {}
