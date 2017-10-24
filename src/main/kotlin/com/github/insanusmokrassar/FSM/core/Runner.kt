@@ -119,7 +119,7 @@ class Runner(private val states: List<State>, private val firstState: Int = 0) :
     @Throws(IllegalArgumentException::class)
     override fun invoke(input: String) {
         val stack =  Stack<Int>()
-        val inputDeque = ArrayDeque<String>(input.toCharArray().map { it.toString() })
+        val inputDeque = ArrayDeque<String>(input.toCharArray().map { it.toString() }.plus(""))
         var stateNum = firstState
         try {
             while (true) {
