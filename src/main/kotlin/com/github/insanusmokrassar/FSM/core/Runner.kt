@@ -157,7 +157,7 @@ class Runner(private val states: List<State>, private val firstState: Int = 0) :
                 }
             }
         } catch (e: EmptyStackException) {
-            if (inputDeque.isEmpty()) {
+            if (inputDeque.isEmpty() || (inputDeque.size == 1 && inputDeque.peek().isEmpty())) {
                 return
             } else {
                 throw IllegalArgumentException("Input completed, but stack is not empty")
