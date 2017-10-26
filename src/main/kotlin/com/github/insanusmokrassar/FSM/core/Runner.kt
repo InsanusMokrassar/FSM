@@ -148,7 +148,9 @@ class Runner(private val states: List<State>, private val firstState: Int = 0) :
                     }
                 } else {
                     if (currentState.error) {
-                        throw IllegalArgumentException("Error in read input")
+                        throw IllegalArgumentException("Illegal input. " +
+                                "Await '${currentState.regex.pattern}' but was '$currentInput' " +
+                                "(${input.length - inputDeque.size - 1} symbol)")
                     } else {
                         stateNum++
                     }
@@ -158,7 +160,7 @@ class Runner(private val states: List<State>, private val firstState: Int = 0) :
             if (inputDeque.isEmpty()) {
                 return
             } else {
-                throw IllegalArgumentException("Stack is not empty, but symbols is empty.")
+                throw IllegalArgumentException("Input completed, but stack is not empty")
             }
         }
     }
