@@ -116,12 +116,11 @@ fun fromConfig(config: IObject<Any>): Runner {
     return Runner(states)
 }
 
-class Runner(private val states: List<State>, private val firstState: Int = 0) : (String) -> Unit {
+class Runner(private val states: List<State>, private val firstState: Int = 0) : StateAction {
     @Throws(IllegalArgumentException::class)
-    override fun invoke(input: String) {
+    override fun invoke(scope: IObject<Any>, input: String) {
         val stack =  Stack<Int>()
         val inputDeque = ArrayDeque<String>(input.toCharArray().map { it.toString() }.plus(""))
-        val scope = SimpleIObject()
         var stateNum = firstState
         try {
             while (true) {

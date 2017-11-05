@@ -42,8 +42,9 @@ fun main(args: Array<String>) {
     val scanner = Scanner(System.`in`)
     while (true) {
         try {
-            runner(scanner.nextLine())
-            println("All right")
+            val state = SimpleIObject()
+            runner(state, scanner.nextLine())
+            println("All right, final state:\n$state")
         } catch (e: Throwable) {
             e.printStackTrace()
         }
