@@ -116,7 +116,10 @@ fun fromConfig(config: IObject<Any>): Runner {
     return Runner(states)
 }
 
-class Runner(private val states: List<State>, private val firstState: Int = 0) : StateAction {
+class Runner(
+        private val states: List<State>,
+        private val firstState: Int = 0
+) : StateAction, (String) -> Unit {
     @Throws(IllegalArgumentException::class)
     override fun invoke(scope: IObject<Any>, input: String) {
         val stack =  Stack<Int>()
@@ -164,5 +167,9 @@ class Runner(private val states: List<State>, private val firstState: Int = 0) :
                 throw IllegalArgumentException("Input completed, but stack is not empty")
             }
         }
+    }
+
+    override fun invoke(input: String) {
+        invoke(SimpleIObject(), input)
     }
 }
