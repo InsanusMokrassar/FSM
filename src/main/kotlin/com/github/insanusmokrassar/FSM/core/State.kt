@@ -1,12 +1,14 @@
 package com.github.insanusmokrassar.FSM.core
 
+import com.github.insanusmokrassar.IObjectK.interfaces.IObject
+
 interface State {
     val accept: Boolean
     val error: Boolean
     val stack: Boolean
     val regex: Regex
     val next: Int?
-    val action: (String) -> Unit
+    val action: (IObject<Any>, String) -> Unit
 }
 
 /**
@@ -16,7 +18,9 @@ fun State.toConfigString(): String {
     return "[$accept,$error,$stack,\"${regex.pattern.replace("\\", "\\\\")}\",$next${if (action != defaultAction) ",{\"$callbackField\":${action::class.java.canonicalName}}" else ""}]"
 }
 
-private val defaultAction: (String) -> Unit = {}
+val defaultAction: (IObject<Any>, String) -> Unit = {
+    _, _ ->
+}
 
 open class SimpleState(
         override val accept: Boolean,
@@ -24,10 +28,10 @@ open class SimpleState(
         override val stack: Boolean,
         override val regex: Regex,
         override val next: Int?,
-        override val action: (String) -> Unit = defaultAction
+        override val action: (IObject<Any>, String) -> Unit = defaultAction
 ) : State
 
-class AcceptErrorReturnState(regex: String, override val action: (String) -> Unit = defaultAction): State {
+class AcceptErrorReturnState(regex: String, override val action: (IObject<Any>, String) -> Unit = defaultAction): State {
     override val accept: Boolean = true
     override val error: Boolean = true
     override val stack: Boolean = false
@@ -35,21 +39,21 @@ class AcceptErrorReturnState(regex: String, override val action: (String) -> Uni
     override val next: Int? = null
 }
 
-class ErrorState(regex: String, override val next: Int, override val action: (String) -> Unit = defaultAction): State {
+class ErrorState(regex: String, override val next: Int, override val action: (IObject<Any>, String) -> Unit = defaultAction): State {
     override val accept: Boolean = false
     override val error: Boolean = true
     override val stack: Boolean = false
     override val regex: Regex = Regex(regex)
 }
 
-class AcceptErrorState(regex: String, override val next: Int, override val action: (String) -> Unit = defaultAction): State {
+class AcceptErrorState(regex: String, override val next: Int, override val action: (IObject<Any>, String) -> Unit = defaultAction): State {
     override val accept: Boolean = true
     override val error: Boolean = true
     override val stack: Boolean = false
     override val regex: Regex = Regex(regex)
 }
 
-class ErrorReturnState(regex: String, override val action: (String) -> Unit = defaultAction): State {
+class ErrorReturnState(regex: String, override val action: (IObject<Any>, String) -> Unit = defaultAction): State {
     override val accept: Boolean = false
     override val error: Boolean = true
     override val stack: Boolean = false
@@ -57,14 +61,14 @@ class ErrorReturnState(regex: String, override val action: (String) -> Unit = de
     override val next: Int? = null
 }
 
-class StackErrorState(regex: String, override val next: Int, override val action: (String) -> Unit = defaultAction): State {
+class StackErrorState(regex: String, override val next: Int, override val action: (IObject<Any>, String) -> Unit = defaultAction): State {
     override val accept: Boolean = false
     override val error: Boolean = true
     override val stack: Boolean = true
     override val regex: Regex = Regex(regex)
 }
 
-class ClearState(regex: String, override val next: Int, override val action: (String) -> Unit = defaultAction): State {
+class ClearState(regex: String, override val next: Int, override val action: (IObject<Any>, String) -> Unit = defaultAction): State {
     override val accept: Boolean = false
     override val error: Boolean = false
     override val stack: Boolean = false

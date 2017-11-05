@@ -4,6 +4,7 @@ import com.github.insanusmokrassar.IOC.core.getConfig
 import com.github.insanusmokrassar.IOC.core.packageKey
 import com.github.insanusmokrassar.IOC.utils.extract
 import com.github.insanusmokrassar.IObjectK.interfaces.IObject
+import com.github.insanusmokrassar.IObjectK.realisations.SimpleIObject
 import java.util.*
 import java.util.logging.Logger
 
@@ -63,12 +64,12 @@ fun fromConfig(config: IObject<Any>): Runner {
                                 else -> null
                             },
                             if (it.size > 5) {
-                                extract<(String) -> Unit>(
+                                extract(
                                         (it[5] as IObject<Any>).get(packageKey),
                                         *getConfig(it[5] as IObject<Any>)
                                 )
                             } else {
-                                {}
+                                defaultAction
                             }
                     )
             )
@@ -98,12 +99,12 @@ fun fromConfig(config: IObject<Any>): Runner {
                                     },
                                     if(it.keys().contains(callbackField)) {
                                         val callbackConfig = it.get<IObject<Any>>(callbackField)
-                                        extract<(String) -> Unit>(
+                                        extract(
                                                 callbackConfig.get(packageKey),
                                                 *getConfig(callbackConfig)
                                         )
                                     } else {
-                                        {}
+                                        defaultAction
                                     }
                             )
                     )
@@ -120,6 +121,7 @@ class Runner(private val states: List<State>, private val firstState: Int = 0) :
     override fun invoke(input: String) {
         val stack =  Stack<Int>()
         val inputDeque = ArrayDeque<String>(input.toCharArray().map { it.toString() }.plus(""))
+        val scope = SimpleIObject()
         var stateNum = firstState
         try {
             while (true) {
@@ -130,7 +132,7 @@ class Runner(private val states: List<State>, private val firstState: Int = 0) :
                         inputDeque.pop()
                     }
                     try {
-                        currentState.action(currentInput)
+                        currentState.action(scope, currentInput)
                     } catch (e: Throwable) {
                         Logger.getGlobal().throwing(
                                 javaClass.simpleName,
