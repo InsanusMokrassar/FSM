@@ -2,6 +2,31 @@
 
 Very simple realisation of finite state machine.
 
+## Using as dependency
+
+Available versions:
+
+* 1.2
+  * 1.1-1
+* 1.1
+  * 1.0-1
+* 1.0
+
+### Maven
+
+```
+<dependency>
+    <groupId>com.github.insanusmokrassar</groupId>
+    <artifactId>FSM</artifactId>
+    <version>VERSION</version>
+</dependency>
+```
+
+### Gradle
+
+```compile 'com.github.insanusmokrassar:FSM:VERSION'```
+
+
 ## Example
 
 In [Example](src/main/kotlin/com/github/insanusmokrassar/FSM/Example.kt) you can see constructing of FSM table for
