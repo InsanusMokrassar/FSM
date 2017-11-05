@@ -1,6 +1,8 @@
 package com.github.insanusmokrassar.FSM
 
 import com.github.insanusmokrassar.FSM.core.*
+import com.github.insanusmokrassar.IObjectK.interfaces.has
+import com.github.insanusmokrassar.IObjectK.realisations.SimpleIObject
 import java.util.*
 
 fun main(args: Array<String>) {
@@ -11,6 +13,7 @@ fun main(args: Array<String>) {
         }
         return
     } else {
+        val wordField = "word"
         Runner(
                 listOf(
                         ErrorState("\\d", 3),
@@ -18,7 +21,19 @@ fun main(args: Array<String>) {
                         ErrorState(";", 7),
                         StackErrorState("\\d", 1),
                         AcceptErrorReturnState(";"),
-                        AcceptErrorState("\\d", 6, { println("read $it") }),
+                        AcceptErrorState("\\d", 6, {
+                            scope, input ->
+                            val oldField = if (scope.has(wordField)) {
+                                scope.get(wordField)
+                            } else {
+                                ""
+                            }
+                            scope.put(
+                                    wordField,
+                                    "$oldField$input"
+                            )
+                            println("Read $input; Word: ${scope.get<String>(wordField)}")
+                        }),
                         ErrorState("[\\d;]", 1),
                         ErrorReturnState(";")
                 )
