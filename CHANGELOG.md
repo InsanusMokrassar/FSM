@@ -40,3 +40,11 @@ Return old method `fun invoke(String): Unit`
 * Add for method `fun State.toConfigObject` parameter `mark` for ease reading final config.
 * Optimize imports
 * Small refactoring
+
+### v1.2.4
+
+* Added interactive mode. For activate just add param `-i` when call
+* Added dependency IObjectKRealisations
+* Fix problem with method `toConfig*`:
+    * Created method to generating config list
+    * Fixed method `toConfigObject`
