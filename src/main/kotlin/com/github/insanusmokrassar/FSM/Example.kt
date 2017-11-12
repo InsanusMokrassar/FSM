@@ -1,17 +1,20 @@
 package com.github.insanusmokrassar.FSM
 
 import com.github.insanusmokrassar.FSM.core.*
+import com.github.insanusmokrassar.FSM.extensions.createRunnerFromConfig
 import com.github.insanusmokrassar.IObjectK.interfaces.has
 import com.github.insanusmokrassar.IObjectK.realisations.SimpleIObject
+import com.github.insanusmokrassar.IObjectKRealisations.JSONIObject
 import java.util.*
 
 fun main(args: Array<String>) {
-
-    val runner = if (args.isNotEmpty()) {
-        args.forEach {
-            println(it)
+    val scanner = Scanner(System.`in`)
+    val runner = if (args.isNotEmpty() && (args[0] == "-i" || args[0] == "--interactive")) {
+        var config = ""
+        while (!config.endsWith("\n\n")) {
+            config += "${scanner.nextLine()}\n"
         }
-        return
+        createRunnerFromConfig(JSONIObject(config))
     } else {
         val wordField = "word"
         Runner(
@@ -39,7 +42,6 @@ fun main(args: Array<String>) {
                 )
         )
     }
-    val scanner = Scanner(System.`in`)
     while (true) {
         try {
             val state = SimpleIObject()

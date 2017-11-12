@@ -10,6 +10,8 @@ import com.github.insanusmokrassar.IOC.utils.extract
 import com.github.insanusmokrassar.IObjectK.interfaces.IObject
 import com.github.insanusmokrassar.IObjectK.interfaces.has
 import com.github.insanusmokrassar.IObjectK.realisations.SimpleIObject
+import com.github.insanusmokrassar.IObjectKRealisations.JSONIObject
+import org.json.JSONObject
 
 val statesField = "states"
 
@@ -25,26 +27,45 @@ val callbackField = "callback"
 /**
  * Use with caution - this method is not add config field for callback
  */
-fun State.toConfigString(): String {
-    return "[$accept,$error,$stack,\"${regex.pattern.replace("\\", "\\\\")}\",$next${if (action != defaultAction) ",{\"$callbackField\":${action::class.java.canonicalName}}" else ""}]"
-}
-
-fun State.toConfigObject(mark: String? = null): IObject<Any> {
-    val preMap = mutableMapOf<String, Any>()
-    preMap.put(acceptField, accept)
-    preMap.put(errorField, error)
-    preMap.put(stackField, stack)
-    preMap.put(regexField, regex.pattern)
-    preMap.put(nextField, next.toString())
+fun State.toConfigList(): List<Any?> {
+    val result = ArrayList<Any?>()
+    result.add(accept)
+    result.add(error)
+    result.add(stack)
+    result.add(regex.pattern.replace("\\", "\\\\"))
+    next ?. let {
+        result.add(it)
+    } ?: result.add(null)
     if (action != defaultAction) {
         val actionObject = SimpleIObject()
         actionObject.put(packageKey, action::class.java.canonicalName)
-        preMap.put(callbackField, actionObject)
+        result.add(actionObject)
+    }
+    return result
+}
+
+fun State.toConfigObject(mark: String? = null): IObject<Any> {
+    val result = JSONIObject(JSONObject())
+    result.put(acceptField, accept)
+    result.put(errorField, error)
+    result.put(stackField, stack)
+    result.put(regexField, regex.pattern)
+    next ?. let {
+        result.put(nextField, it.toString())
+    }
+    if (action != defaultAction) {
+        val actionObject = SimpleIObject()
+        actionObject.put(packageKey, action::class.java.canonicalName)
+        result.put(callbackField, actionObject)
     }
     mark?. let {
-        preMap.put(markField, it)
+        result.put(markField, it)
     }
-    return SimpleIObject(preMap)
+    return result
+}
+
+fun State.toConfigString(mark: String? = null): String {
+    return toConfigObject(mark).toString()
 }
 
 /**
