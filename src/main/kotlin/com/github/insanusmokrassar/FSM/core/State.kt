@@ -4,6 +4,10 @@ import com.github.insanusmokrassar.IObjectK.interfaces.IObject
 
 typealias StateAction = (IObject<Any>, String) -> Unit
 
+val defaultAction: StateAction = {
+    _, _ ->
+}
+
 interface State {
     val accept: Boolean
     val error: Boolean
@@ -11,17 +15,6 @@ interface State {
     val regex: Regex
     val next: Int?
     val action: StateAction
-}
-
-/**
- * Use with caution - this method is not add config field for callback
- */
-fun State.toConfigString(): String {
-    return "[$accept,$error,$stack,\"${regex.pattern.replace("\\", "\\\\")}\",$next${if (action != defaultAction) ",{\"$callbackField\":${action::class.java.canonicalName}}" else ""}]"
-}
-
-val defaultAction: StateAction = {
-    _, _ ->
 }
 
 open class SimpleState(

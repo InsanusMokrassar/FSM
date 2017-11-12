@@ -29,3 +29,14 @@ Make Runner to be StateAction
 ### v1.2.2
 
 Return old method `fun invoke(String): Unit`
+
+### v1.2.3
+
+* Replace all service methods into [FSM.kt](src/main/kotlin/com/github/insanusmokrassar/FSM/extensions/FSM.kt). Methods replaced:
+    * State to/from config array
+    * State to/from config object
+    * Runner from states configs list
+    * Runner from config
+* Add for method `fun State.toConfigObject` parameter `mark` for ease reading final config.
+* Optimize imports
+* Small refactoring
