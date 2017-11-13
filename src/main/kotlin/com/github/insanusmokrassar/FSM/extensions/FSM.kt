@@ -103,7 +103,7 @@ fun IObject<Any>.extractState(): State {
             },
             Regex(get(regexField)),
             if (has(nextField)) {
-                get(nextField)
+                get<Int>(nextField)
             } else {
                 null
             },
