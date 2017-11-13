@@ -51,7 +51,7 @@ fun State.toConfigObject(mark: String? = null): IObject<Any> {
     result.put(stackField, stack)
     result.put(regexField, regex.pattern)
     next ?. let {
-        result.put(nextField, it.toString())
+        result.put(nextField, it)
     }
     if (action != defaultAction) {
         val actionObject = SimpleIObject()
